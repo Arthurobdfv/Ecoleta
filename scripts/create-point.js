@@ -10,8 +10,6 @@ function populateUFs(){
     } )
 }
 
-populateUFs();
-
 function getCities(event){
     const citySelect = document.querySelector("select[name=city]");
     const stateInput = document.querySelector("input[name=state]");
@@ -33,21 +31,8 @@ function getCities(event){
 
 }
 
-document.querySelector("select[name=uf]").addEventListener("change", getCities);
-
-const itemsToCollect = document.querySelectorAll(".items-grid li");
-
-for(let item of itemsToCollect){
-    item.addEventListener("click", handleSelectItem)
-}
-
-let selectedItems = [];
-
-
-function handleSelectItem (event) {
-    
+function handleSelectItem (event) { 
     const itemLi = event.target;
-    console.log("clicked")
     
     itemLi.classList.toggle("selected");
     
@@ -57,6 +42,26 @@ function handleSelectItem (event) {
     if(alreadySelected >= 0){
         const filteredItems = selectedItems.filter(item => {
             const itemIsDifferent = item != itemId;
+            return itemIsDifferent;
         })
+        selectedItems = filteredItems;
+    } else {
+        selectedItems.push(itemId);
     }
+
+    collectedItems.value = selectedItems;
 }
+
+
+populateUFs();
+
+document.querySelector("select[name=uf]").addEventListener("change", getCities);
+
+const collectedItems = document.querySelector("input[name=items]");
+const itemsToCollect = document.querySelectorAll(".items-grid li");
+for(let item of itemsToCollect){
+    item.addEventListener("click", handleSelectItem)
+}
+let selectedItems = [];
+
+
